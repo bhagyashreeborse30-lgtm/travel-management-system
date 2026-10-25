@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}{{ item.name }}{% endblock %}
+{% block content %}
+<div class="detail-layout">
+  <div class="detail-main">
+    <div class="detail-image">{% if item.image_url %}<img src="{{ item.image_url }}" alt="{{ item.name }}">{% else %}<div class="image-placeholder">✦</div>{% endif %}</div>
+    <span class="eyebrow">{{ item.category }} · {{ item.city }}, {{ item.state }}</span>
+    <h1>{{ item.name }}</h1>
+    <p class="lead">{{ item.description }}</p>
+    <div class="info-strip"><div><small>ESTIMATED PRICE</small><b>₹{{ "%.0f"|format(item.price) }} <small>/ person</small></b></div><div><small>RECOMMENDED DURATION</small><b>{{ item.duration }}</b></div><div><small>LOCATION</small><b>{{ item.city }}</b></div></div>
+    <h2>Explore the location</h2>
+    <p>Open the map to view directions and nearby places.</p>
+    <a class="btn btn-outline" href="{{ item.map_url or 'https://www.openstreetmap.org' }}" target="_blank" rel="noopener">Open map ↗</a>
+  </div>
+  <aside class="booking-panel">
+    <span class="eyebrow">PLAN YOUR VISIT</span><h2>Request a booking</h2>
+    <p class="muted">Submit your preferred date and group size. Your request will be pending until an administrator confirms it.</p>
+    <form method="post" action="{{ url_for('book', destination_id=item.id) }}" class="form-stack">
+      <label>Visit date<input type="date" name="visit_date" min="{{ today }}" required></label>
+      <label>Number of visitors<input type="number" name="people" min="1" max="30" value="1" required></label>
+      {% if session.get('user_id') %}<button class="btn btn-primary btn-full">Submit booking request →</button>{% else %}<a class="btn btn-primary btn-full" href="{{ url_for('login') }}">Login to book →</a>{% endif %}
+    </form>
+    <p class="tiny-note">This demo does not collect payments.</p>
+  </aside>
+</div>
+{% endblock %}

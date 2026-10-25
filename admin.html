@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Admin Dashboard{% endblock %}
+{% block content %}
+<section class="page-title admin-title"><div><span class="eyebrow">CONTROL CENTRE</span><h1>Admin dashboard</h1><p>Manage destination listings and visitor booking requests.</p></div><a class="btn btn-primary" href="{{ url_for('add_destination') }}">＋ Add destination</a></section>
+<div class="stats-grid"><div class="stat-card"><small>REGISTERED USERS</small><b>{{ stats.users }}</b><span>Visitor accounts</span></div><div class="stat-card"><small>DESTINATIONS</small><b>{{ stats.destinations }}</b><span>Listed places</span></div><div class="stat-card"><small>TOTAL BOOKINGS</small><b>{{ stats.bookings }}</b><span>All requests</span></div><div class="stat-card"><small>PENDING</small><b>{{ stats.pending }}</b><span>Need review</span></div></div>
+<div class="section-heading"><div><span class="eyebrow">BOOKING MANAGEMENT</span><h2>Recent booking requests</h2></div></div>
+<div class="table-wrap"><table><thead><tr><th>ID</th><th>Customer</th><th>Destination</th><th>Date</th><th>People</th><th>Amount</th><th>Status</th><th>Actions</th></tr></thead><tbody>
+{% for b in bookings %}<tr><td>#{{ b.id }}</td><td>{{ b.customer }}</td><td>{{ b.destination }}</td><td>{{ b.visit_date }}</td><td>{{ b.people }}</td><td>₹{{ "%.0f"|format(b.total_amount) }}</td><td><span class="status {{ b.status|lower }}">{{ b.status }}</span></td><td class="actions">{% if b.status == 'Pending' %}<form method="post" action="{{ url_for('update_booking', booking_id=b.id, status='Confirmed') }}"><button class="mini-btn confirm">Confirm</button></form><form method="post" action="{{ url_for('update_booking', booking_id=b.id, status='Cancelled') }}"><button class="mini-btn cancel">Cancel</button></form>{% else %}—{% endif %}</td></tr>
+{% else %}<tr><td colspan="8" class="empty-cell">No booking requests yet.</td></tr>{% endfor %}
+</tbody></table></div>
+{% endblock %}

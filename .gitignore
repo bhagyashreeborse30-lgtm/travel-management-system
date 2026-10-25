@@ -1,0 +1,8 @@
+venv/
+.venv/
+__pycache__/
+*.py[cod]
+travelmate.db
+.env
+.vscode/
+.DS_Store

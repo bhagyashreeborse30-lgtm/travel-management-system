@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Explore{% endblock %}
+{% block content %}
+<section class="hero">
+  <div class="hero-content">
+    <span class="eyebrow">YOUR NEXT ADVENTURE STARTS HERE</span>
+    <h1>Find your place<br><em>in the world.</em></h1>
+    <p>Discover beautiful destinations, plan your visit and manage your tour bookings in one place.</p>
+    <form class="hero-search" action="{{ url_for('destinations') }}" method="get">
+      <span>⌕</span><input name="q" placeholder="Search a place or city..." aria-label="Search destinations">
+      <button class="btn btn-primary">Explore</button>
+    </form>
+    <div class="hero-note">✦ Curated destinations &nbsp; · &nbsp; Simple booking &nbsp; · &nbsp; Memorable journeys</div>
+  </div>
+  <div class="hero-art">
+    <div class="hero-photo"></div>
+    <div class="floating-card"><span class="sun">✺</span><div><b>Explore more</b><small>One trip at a time</small></div></div>
+    <div class="photo-caption">Wander beyond the ordinary.</div>
+  </div>
+</section>
+<section class="section">
+  <div class="section-heading"><div><span class="eyebrow">START EXPLORING</span><h2>Popular destinations</h2><p>Places worth adding to your travel list.</p></div><a class="text-link" href="{{ url_for('destinations') }}">View all destinations →</a></div>
+  <div class="destination-grid">
+    {% for item in destinations %}
+      <article class="destination-card">
+        <a href="{{ url_for('destination_detail', destination_id=item.id) }}" class="card-image">
+          {% if item.image_url %}<img src="{{ item.image_url }}" alt="{{ item.name }}">{% else %}<div class="image-placeholder">✦</div>{% endif %}
+          <span class="category-pill">{{ item.category }}</span>
+        </a>
+        <div class="card-body"><div class="location">⌖ {{ item.city }}, {{ item.state }}</div><h3><a href="{{ url_for('destination_detail', destination_id=item.id) }}">{{ item.name }}</a></h3><div class="card-bottom"><span>From <b>₹{{ "%.0f"|format(item.price) }}</b> / person</span><a href="{{ url_for('destination_detail', destination_id=item.id) }}">View details ↗</a></div></div>
+      </article>
+    {% else %}<p>No destinations added yet.</p>{% endfor %}
+  </div>
+</section>
+<section class="callout"><div><span class="eyebrow">MAKE IT HAPPEN</span><h2>Your next story is waiting.</h2><p>Choose a destination and send your booking request in a few easy steps.</p></div><a class="btn btn-light" href="{{ url_for('destinations') }}">Plan a trip →</a></section>
+{% endblock %}

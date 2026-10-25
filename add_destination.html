@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Add destination{% endblock %}
+{% block content %}
+<div class="form-page"><span class="eyebrow">ADMIN · DESTINATION CATALOGUE</span><h1>Add a destination</h1><p class="muted">Add a place for visitors to discover and book.</p>
+<form method="post" class="form-stack form-grid">
+<label>Destination name *<input name="name" required></label><label>City *<input name="city" required></label>
+<label>State *<input name="state" required></label><label>Category *<select name="category" required><option value="">Choose category</option><option>Nature</option><option>Heritage</option><option>History</option><option>Spiritual</option><option>Adventure</option><option>Beach</option><option>Other</option></select></label>
+<label>Price per person (₹) *<input type="number" name="price" min="0" step="0.01" required></label><label>Recommended duration *<input name="duration" placeholder="e.g. 1 day" required></label>
+<label class="full-field">Description *<textarea name="description" rows="4" required></textarea></label>
+<label class="full-field">Image URL<input type="url" name="image_url" placeholder="https://..."></label>
+<label class="full-field">Map URL<input type="url" name="map_url" placeholder="https://www.openstreetmap.org/..."></label>
+<div class="full-field"><button class="btn btn-primary">Save destination</button> <a class="btn btn-outline" href="{{ url_for('admin_dashboard') }}">Cancel</a></div>
+</form></div>
+{% endblock %}

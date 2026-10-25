@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% block title %}Login{% endblock %}
+{% block content %}
+<div class="auth-wrap"><div class="auth-side"><span class="eyebrow">WELCOME BACK</span><h1>Your next journey is just a login away.</h1><p>Sign in to view your bookings and plan your next trip.</p></div>
+<div class="auth-card"><h2>Sign in</h2><p class="muted">Enter your account details below.</p><form method="post" class="form-stack"><label>Email address<input type="email" name="email" placeholder="you@example.com" required></label><label>Password<input type="password" name="password" placeholder="Your password" required></label><button class="btn btn-primary btn-full">Login</button></form><p class="auth-switch">New to TravelMate? <a href="{{ url_for('register') }}">Create an account</a></p></div></div>
+{% endblock %}

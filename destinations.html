@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Destinations{% endblock %}
+{% block content %}
+<section class="page-title"><span class="eyebrow">THE TRAVEL COLLECTION</span><h1>Explore destinations</h1><p>Find a place that matches your kind of adventure.</p></section>
+<form class="filter-bar" method="get">
+  <input name="q" value="{{ q }}" placeholder="Search destination, city or state...">
+  <select name="category"><option value="">All categories</option>{% for c in categories %}<option value="{{ c.category }}" {% if selected == c.category %}selected{% endif %}>{{ c.category }}</option>{% endfor %}</select>
+  <button class="btn btn-primary">Search</button>
+  <a class="btn btn-outline" href="{{ url_for('destinations') }}">Reset</a>
+</form>
+<div class="result-count">{{ destinations|length }} destination(s) found</div>
+<div class="destination-grid">
+{% for item in destinations %}
+  <article class="destination-card">
+    <a href="{{ url_for('destination_detail', destination_id=item.id) }}" class="card-image">
+      {% if item.image_url %}<img src="{{ item.image_url }}" alt="{{ item.name }}">{% else %}<div class="image-placeholder">✦</div>{% endif %}
+      <span class="category-pill">{{ item.category }}</span>
+    </a>
+    <div class="card-body"><div class="location">⌖ {{ item.city }}, {{ item.state }}</div><h3><a href="{{ url_for('destination_detail', destination_id=item.id) }}">{{ item.name }}</a></h3><p class="description">{{ item.description }}</p><div class="card-bottom"><span>From <b>₹{{ "%.0f"|format(item.price) }}</b></span><a href="{{ url_for('destination_detail', destination_id=item.id) }}">Explore ↗</a></div></div>
+  </article>
+{% else %}<div class="empty-state"><h3>No matching destinations</h3><p>Try another search or clear the filters.</p><a class="btn btn-primary" href="{{ url_for('destinations') }}">Show all</a></div>{% endfor %}
+</div>
+{% endblock %}

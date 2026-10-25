@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}TravelMate{% endblock %} | Tourist Management</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+<nav class="navbar">
+  <a class="brand" href="{{ url_for('home') }}"><span class="brand-mark">✦</span> TravelMate</a>
+  <div class="nav-links">
+    <a href="{{ url_for('home') }}">Home</a>
+    <a href="{{ url_for('destinations') }}">Destinations</a>
+    <a href="{{ url_for('about') }}">About</a>
+    {% if session.get('user_id') %}
+      <a href="{{ url_for('my_bookings') }}">My Bookings</a>
+      {% if session.get('role') == 'admin' %}<a href="{{ url_for('admin_dashboard') }}">Admin</a>{% endif %}
+      <span class="welcome">Hi, {{ session.get('name') }}</span>
+      <a class="nav-cta" href="{{ url_for('logout') }}">Logout</a>
+    {% else %}
+      <a href="{{ url_for('login') }}">Login</a>
+      <a class="nav-cta" href="{{ url_for('register') }}">Get Started</a>
+    {% endif %}
+  </div>
+</nav>
+<main class="page">
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <div class="alerts">
+      {% for category, message in messages %}
+        <div class="alert {{ category }}">{{ message }}</div>
+      {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+  {% block content %}{% endblock %}
+</main>
+<footer class="footer">
+  <div><a class="brand footer-brand" href="{{ url_for('home') }}">✦ TravelMate</a><p>Discover places. Create memories.</p></div>
+  <p>© 2026 TravelMate Tourist Management System · Student Project</p>
+</footer>
+</body>
+</html>
